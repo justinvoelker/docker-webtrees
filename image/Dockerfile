@@ -20,9 +20,11 @@ RUN set -e \
        pdo \
        mysqli \
        pdo_mysql \
-    && wget https://github.com/fisharebest/webtrees/archive/$WEBTREES_VERSION.tar.gz \
-    && tar -xzf $WEBTREES_VERSION.tar.gz --strip-components=1 \
-    && rm $WEBTREES_VERSION.tar.gz \
+    && wget https://github.com/fisharebest/webtrees/releases/download/$WEBTREES_VERSION/webtrees-$WEBTREES_VERSION.zip
+RUN unzip webtrees-$WEBTREES_VERSION.zip \
+    && rm webtrees-$WEBTREES_VERSION.zip \
+    && mv webtrees/* . \
+    && rmdir webtrees \
     && apk del .build-deps \
     && cp -r /var/www/html/data /var/www/html/data.bak \
     && chown -R www-data /var/www/html \
