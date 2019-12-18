@@ -20,8 +20,8 @@ RUN set -e \
        pdo \
        mysqli \
        pdo_mysql \
-    && wget https://github.com/fisharebest/webtrees/releases/download/$WEBTREES_VERSION/webtrees-$WEBTREES_VERSION.zip
-RUN unzip webtrees-$WEBTREES_VERSION.zip \
+    && wget https://github.com/fisharebest/webtrees/releases/download/$WEBTREES_VERSION/webtrees-$WEBTREES_VERSION.zip \
+    && unzip webtrees-$WEBTREES_VERSION.zip \
     && rm webtrees-$WEBTREES_VERSION.zip \
     && mv webtrees/* . \
     && rmdir webtrees \
