@@ -38,8 +38,8 @@ RUN set -ex \
     && ln -sf /dev/stdout /var/log/nginx/access.log \
     && ln -sf /dev/stderr /var/log/nginx/error.log \
     && chmod +x /usr/local/bin/docker-entrypoint.sh \
-    && chown www-data /var/tmp/nginx/ \
-    && chmod g+rwx /var/tmp/nginx/
+    && chown www-data -R /var/tmp/nginx/ \
+    && chmod g+rwx -R /var/tmp/nginx/
 
 VOLUME /var/www/html/data
 
