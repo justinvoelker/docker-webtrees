@@ -1,6 +1,6 @@
 FROM php:7.1-fpm-alpine
 
-ENV WEBTREES_VERSION 1.7.9
+ENV WEBTREES_VERSION 1.7.16
 
 RUN set -e \
     && apk add --no-cache \
@@ -20,9 +20,11 @@ RUN set -e \
        pdo \
        mysqli \
        pdo_mysql \
-    && wget https://github.com/fisharebest/webtrees/archive/$WEBTREES_VERSION.tar.gz \
-    && tar -xzf $WEBTREES_VERSION.tar.gz --strip-components=1 \
-    && rm $WEBTREES_VERSION.tar.gz \
+    && wget https://github.com/fisharebest/webtrees/releases/download/$WEBTREES_VERSION/webtrees-$WEBTREES_VERSION.zip \
+    && unzip webtrees-$WEBTREES_VERSION.zip \
+    && rm webtrees-$WEBTREES_VERSION.zip \
+    && mv webtrees/* . \
+    && rmdir webtrees \
     && apk del .build-deps \
     && cp -r /var/www/html/data /var/www/html/data.bak \
     && chown -R www-data /var/www/html \
@@ -35,7 +37,9 @@ COPY docker-entrypoint.sh /usr/local/bin/
 RUN set -ex \
     && ln -sf /dev/stdout /var/log/nginx/access.log \
     && ln -sf /dev/stderr /var/log/nginx/error.log \
-    && chmod +x /usr/local/bin/docker-entrypoint.sh
+    && chmod +x /usr/local/bin/docker-entrypoint.sh \
+    && chown www-data -R /var/tmp/nginx/ \
+    && chmod g+rwx -R /var/tmp/nginx/
 
 VOLUME /var/www/html/data
 
